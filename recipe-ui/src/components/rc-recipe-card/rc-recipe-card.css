@@ -1,0 +1,274 @@
+:host {
+  display: block;
+  font-family: var(--font-body, system-ui, sans-serif);
+  /* The card's own width is entirely decided by whatever grid column the
+   * host page places it in — anywhere from a cramped 3-up mobile grid to
+   * a wide single-column feature slot. Container queries let the card
+   * scale its own chrome (badges, buttons, type) to that width instead
+   * of only reacting to the viewport, which is what actually varies. */
+  container-type: inline-size;
+  container-name: recipe-card;
+}
+
+.card {
+  position: relative;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--color-surface, #fffdf8);
+  box-shadow: var(--shadow-card, 0 1px 2px rgba(0, 0, 0, 0.06));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover, 0 20px 40px rgba(30, 42, 34, 0.16));
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-accent-bright, #e8600a);
+  outline-offset: 3px;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--color-bg-deep, #f2ead9);
+  overflow: hidden;
+}
+
+.card.featured .media {
+  aspect-ratio: 16 / 11;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .media img {
+  transform: scale(1.06);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(20, 16, 8, 0.55) 0%, rgba(20, 16, 8, 0.08) 38%, transparent 62%);
+  pointer-events: none;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-ink-faint, #a89f8c);
+  font-family: var(--font-display, serif);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.category-chip {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fdf9ef;
+  background: rgba(20, 16, 8, 0.36);
+  backdrop-filter: blur(6px);
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-sizing: border-box;
+}
+
+.secondary-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #241f19;
+  background: var(--color-accent-2, #d8a13a);
+  padding: 5px 9px;
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
+.meta {
+  margin: -4px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.78rem;
+  color: var(--color-ink-muted, #7a7160);
+}
+
+.fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 253, 248, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-ink-muted, #7a7160);
+  box-shadow: 0 2px 6px rgba(20, 16, 8, 0.25);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, background 0.2s ease;
+}
+
+.fav-btn:hover {
+  transform: scale(1.1);
+}
+
+.fav-btn.active {
+  color: var(--color-accent, #c1521e);
+}
+
+.fav-btn.active svg {
+  animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.body {
+  padding: 16px 17px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  border-top: 1px solid var(--color-line, #e7ddc9);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display, serif);
+  font-weight: 560;
+  font-size: 1.14rem;
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+  color: var(--color-ink, #211d16);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-actions {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.media-actions:empty {
+  display: none;
+}
+
+.card:hover .media-actions,
+.card:focus-within .media-actions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ---- Narrow-card scaling (container queries) ----
+ * These trigger on the card's own rendered width, not the viewport, so
+ * the same card looks right whether it's one of two columns on a phone
+ * or one of six on an ultra-wide monitor. */
+@container recipe-card (max-width: 200px) {
+  .body {
+    padding: 12px 13px 14px;
+    gap: 6px;
+  }
+
+  .title {
+    font-size: 0.94rem;
+  }
+
+  .meta {
+    font-size: 0.7rem;
+  }
+
+  .fav-btn {
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .category-chip,
+  .secondary-badge {
+    font-size: 0.56rem;
+    padding: 4px 8px;
+  }
+}
+
+@container recipe-card (max-width: 140px) {
+  .body {
+    padding: 10px 11px 12px;
+  }
+
+  .title {
+    font-size: 0.84rem;
+  }
+
+  .fav-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .fav-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+}

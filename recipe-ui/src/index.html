@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>recipe-ui component previews</title>
+
+    <script type="module" src="/build/recipe-ui.esm.js"></script>
+    <script nomodule src="/build/recipe-ui.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; max-width: 480px; }
+      section { margin-bottom: 32px; }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h3>rc-recipe-card</h3>
+      <rc-recipe-card
+        recipe-id="52772"
+        name="Teriyaki Chicken Casserole"
+        category="Chicken"
+        image="https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
+      ></rc-recipe-card>
+    </section>
+
+    <section>
+      <h3>rc-star-rating</h3>
+      <rc-star-rating value="3"></rc-star-rating>
+    </section>
+
+    <section>
+      <h3>rc-search-bar</h3>
+      <rc-search-bar placeholder="Search recipes…"></rc-search-bar>
+    </section>
+  </body>
+</html>

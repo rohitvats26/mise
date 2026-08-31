@@ -1,0 +1,489 @@
+/* ==========================================================================
+   mise — design tokens
+   Warm editorial food magazine × modern luxury digital product.
+   Tokens live as custom properties on :root so both the SvelteKit app and
+   the Stencil web components (whose shadow DOM custom properties pierce)
+   share one system.
+   ========================================================================== */
+
+/* Fonts are loaded via <link> in app.html (preconnect + stylesheet) for
+   faster first paint; see app.html for the exact family/weight list. */
+
+:root {
+	/* ---- Palette — richer, more polished warm editorial base ---- */
+ --color-bg: #f8f9fa;
+    --color-bg-deep: #e9ecef;
+    --color-surface: #ffffff;
+    --color-surface-raised: #ffffff;
+    --color-ink: #212529;
+    --color-ink-soft: #343a40;
+    --color-ink-muted: #6c757d;
+    --color-ink-faint: #ced4da;
+    --color-primary: #212529;
+    --color-primary-dark: #0a0c0e;
+    --color-primary-soft: #f1f3f5;
+    --color-accent: #c8553d; /* neutral accent */
+    --color-accent-bright: #495057;
+    --color-accent-2: #adb5bd;
+    --color-sage: #5b6e52;
+    --color-mauve: #adb5bd;
+    --color-mauve-deep: #6c757d;
+    --color-line: rgba(33, 37, 41, 0.12);
+    --color-line-strong: rgba(33, 37, 41, 0.25);
+    --color-danger: #dc3545;
+    --color-paper: #f8f9fa;
+    --color-cork: #adb5bd;
+	/* Fixed light color for text overlaid on photos (hero, image captions).
+	   Deliberately NOT theme-aware: these sit on a photo + dark scrim in both
+	   light and dark mode, so the text must stay light regardless of theme. */
+	--color-on-photo: #f7f5f0;
+	--color-photo-scrim-strong: rgba(20, 16, 8, 0.75);
+	--color-photo-scrim-mid: rgba(20, 16, 8, 0.3);
+	--color-photo-scrim-soft: rgba(20, 16, 8, 0.2);
+
+	/* ---- Type — matches the reference build's Playfair Display / DM Sans pairing ---- */
+	--font-display: 'Playfair Display', Georgia, serif;
+	--font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+	/* ---- Radii & elevation ---- */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 4px 22px 4px 22px;
+	--shadow-card: 0 1px 1px rgba(26, 20, 11, 0.06), 0 12px 32px -8px rgba(26, 20, 11, 0.2);
+	--shadow-card-hover: 0 2px 4px rgba(26, 20, 11, 0.08), 0 24px 44px -12px rgba(26, 20, 11, 0.28);
+	--shadow-pin: 0 3px 6px rgba(24, 17, 8, 0.22), 0 16px 28px -6px rgba(24, 17, 8, 0.32);
+	--shadow-floating: 0 24px 64px -16px rgba(26, 20, 11, 0.4);
+
+	/* ---- Motion ---- */
+	--ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+	--dur-fast: 0.18s;
+	--dur-med: 0.42s;
+	--dur-slow: 0.85s;
+
+	/* ---- Layout ---- */
+	--content-max: 1480px;
+	--content-narrow: 760px;
+}
+
+/* ==========================================================================
+   Dark theme — same structure, inverted surfaces. Applied via
+   `data-theme="dark"` on <html>, set by the inline script in app.html
+   (to avoid a flash of the wrong theme) and toggled by src/lib/stores/theme.
+   ========================================================================== */
+:root[data-theme='dark'] {
+	/* Cool, neutral graphite elevation ladder (slate, not brown) — each
+	   surface a touch lighter than the last, mirroring the light theme's
+	   bg-deep(darker) → bg → surface(lighter) → surface-raised(lightest)
+	   relationship instead of just inverting hex values. The warm accent
+	   colors (terracotta, gold, sage) now pop against this neutral base
+	   instead of blending into it. */
+	--color-bg: #16181b;
+	--color-bg-deep: #101214;
+	--color-surface: #1d2024;
+	--color-surface-raised: #25292e;
+
+	--color-ink: #eef0f2;
+	--color-ink-soft: #d7dbdf;
+	--color-ink-muted: #9aa1a9;
+	--color-ink-faint: #565c64;
+
+	/* A legible sage — used for links/hover text/borders, not solid fills.
+	   (Fills that pair with fixed white text use --color-accent instead,
+	   since a token this light can't also serve as a dark button fill.) */
+	--color-primary: #a3b699;
+	--color-primary-dark: #85987a;
+	--color-primary-soft: #232c22;
+
+	--color-accent: #e58259;
+	--color-accent-bright: #f29c76;
+	--color-accent-2: #e0b563;
+
+	--color-sage: #94a889;
+	--color-mauve: #9aa2ac;
+	--color-mauve-deep: #7d8690;
+
+	--color-line: rgba(238, 240, 242, 0.09);
+	--color-line-strong: rgba(238, 240, 242, 0.18);
+	--color-danger: #e2705e;
+
+	--color-cork: #4a3421;
+
+	--shadow-card: 0 1px 1px rgba(0, 0, 0, 0.32), 0 10px 28px -8px rgba(0, 0, 0, 0.58);
+	--shadow-card-hover: 0 2px 3px rgba(0, 0, 0, 0.38), 0 22px 40px -12px rgba(0, 0, 0, 0.68);
+	--shadow-pin: 0 2px 4px rgba(0, 0, 0, 0.48), 0 14px 24px -6px rgba(0, 0, 0, 0.62);
+	--shadow-floating: 0 20px 60px -16px rgba(0, 0, 0, 0.78);
+}
+
+/* Smooth, not jarring, when the person toggles theme mid-session. */
+html[data-theme] * {
+	transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	background: var(--color-bg);
+	color: var(--color-ink);
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-body);
+	line-height: 1.5;
+	background:
+		radial-gradient(1200px 480px at 10% -10%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent),
+		radial-gradient(900px 420px at 100% 0%, color-mix(in srgb, var(--color-accent-2) 10%, transparent), transparent),
+		var(--color-bg);
+}
+
+a {
+	color: inherit;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+button {
+	font-family: inherit;
+}
+
+/* ---- Shared editorial type utilities ---- */
+
+.eyebrow {
+	display: inline-block;
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.3em;
+	color: var(--color-sage);
+}
+
+.display-1 {
+	font-family: var(--font-display);
+	font-weight: 600;
+	letter-spacing: -0.04em;
+	line-height: 1.05;
+	color: var(--color-ink);
+}
+
+.display-2 {
+	font-family: var(--font-display);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.05;
+	color: var(--color-ink);
+}
+
+.font-italic {
+	font-style: italic;
+	font-weight: 440;
+}
+
+/* ---- Subtle film-grain overlay, fixed over the whole viewport ---- */
+.grain {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+	pointer-events: none;
+	opacity: 0.22;
+	mix-blend-mode: multiply;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27160%27 height=%27160%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%272%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url%28%23n%29%27 opacity=%270.4%27/%3E%3C/svg%3E");
+}
+
+/* ---- Scroll reveal (used with the `reveal` action) ---- */
+[data-reveal] {
+	opacity: 0;
+	transform: translateY(22px);
+	transition: opacity var(--dur-slow) var(--ease-editorial), transform var(--dur-slow) var(--ease-editorial);
+}
+
+[data-reveal='in'] {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Visible keyboard focus everywhere, including inside shadow DOM components */
+:focus-visible {
+	outline: 2px solid var(--color-accent-bright);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+::selection {
+	background: color-mix(in srgb, var(--color-accent-2) 45%, transparent);
+	color: var(--color-primary-dark);
+}
+
+/* Fine hairline scrollbar to match the editorial tone (progressive enhancement) */
+::-webkit-scrollbar {
+	width: 11px;
+}
+::-webkit-scrollbar-track {
+	background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+	background: var(--color-line-strong);
+	border-radius: 8px;
+	border: 3px solid var(--color-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	[data-reveal] {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* =====================================================================
+ * Shared "recipe grid page" chrome — the header, toolbar, results grid,
+ * load-more control, and empty state that /discover, /my-recipes and
+ * /favorites all render the same way. Prefixed rg- (recipe-grid) so it
+ * can't collide with same-named local classes elsewhere (e.g. discover's
+ * own .toolbar has extra chip/filter markup and stays page-local).
+ * ===================================================================== */
+.rg-page-head {
+	max-width: var(--content-max);
+	margin: 0 auto;
+	padding: 56px 28px 36px;
+	max-width: 640px;
+}
+
+.rg-display-1 {
+	font-size: clamp(2rem, 4vw, 2.8rem);
+	margin: 16px 0 12px;
+}
+
+.rg-lede {
+	color: var(--color-ink-muted);
+	font-size: 1.02rem;
+	line-height: 1.6;
+	margin: 0;
+}
+
+.rg-toolbar {
+	max-width: var(--content-max);
+	margin: 0 auto;
+	padding: 0 28px 28px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.rg-results-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 14px;
+}
+
+.rg-results-count {
+	color: var(--color-ink-muted);
+	font-size: 0.86rem;
+	font-weight: 600;
+}
+
+.rg-clear-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	border: none;
+	background: none;
+	padding: 2px;
+	color: var(--color-ink-muted);
+	font-size: 0.82rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.rg-clear-btn:hover {
+	color: var(--color-accent);
+}
+
+.rg-status {
+	max-width: var(--content-max);
+	margin: 0 auto;
+	padding: 20px 28px 100px;
+	color: var(--color-ink-muted);
+}
+
+.rg-grid {
+	max-width: var(--content-max);
+	margin: 0 auto;
+	padding: 0 28px 60px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+	gap: 24px;
+}
+
+.rg-load-more-row {
+	display: flex;
+	justify-content: center;
+	margin: 8px 0 60px;
+}
+
+.rg-load-more-btn {
+	border: 1.5px solid var(--color-line);
+	background: var(--color-surface);
+	color: var(--color-ink);
+	border-radius: 999px;
+	padding: 13px 28px;
+	font-size: 0.88rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.rg-load-more-btn:hover {
+	color: var(--color-surface, #fffdf8);
+	border-color: var(--color-accent-bright);
+	background: var(--color-ink, #211d16);
+}
+
+/* ---- Empty state (dotted-border card) ---- */
+.rg-empty {
+	max-width: var(--content-max);
+	margin: 0 auto;
+	padding: 20px 28px 80px;
+	display: flex;
+	justify-content: center;
+}
+
+.rg-empty-card {
+	width: 100%;
+	max-width: 480px;
+	border-radius: 28px;
+	border: 2px dotted var(--color-line-soft);
+	padding: 40px 28px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 20px;
+	transition: border-color 0.25s ease, transform 0.2s ease;
+}
+
+.rg-empty-card:hover {
+	border-color: var(--color-accent);
+	transform: translateY(-3px);
+}
+
+.rg-empty-icon {
+	width: 112px;
+	height: 112px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: rg-pulse 3s ease-in-out infinite;
+}
+
+.rg-empty-icon svg {
+	width: 64px;
+	height: 64px;
+}
+
+@keyframes rg-pulse {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.04); }
+}
+
+.rg-empty-title {
+	font-family: var(--font-display);
+	font-size: clamp(1.6rem, 3.5vw, 2rem);
+	margin: 0;
+	color: var(--color-ink);
+	letter-spacing: -0.02em;
+	font-weight: 600;
+}
+
+.rg-empty-subtitle {
+	margin: 0 0 4px 0;
+	font-size: 1rem;
+	color: var(--color-ink-muted);
+	max-width: 320px;
+	line-height: 1.6;
+}
+
+.rg-empty-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 32px;
+	border-radius: 999px;
+	background: var(--color-primary);
+	color: #fff;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-decoration: none;
+	transition: background 0.15s ease, transform 0.15s ease;
+	border: none;
+	cursor: pointer;
+}
+
+.rg-empty-cta:hover {
+	background: var(--color-primary-dark);
+	transform: translateY(-2px);
+}
+
+.rg-empty-cta:active {
+	transform: scale(0.96);
+}
+
+.rg-empty-cta svg {
+	transition: transform 0.2s ease;
+}
+
+.rg-empty-cta:hover svg {
+	transform: translateX(4px);
+}
+
+/* ---- Slotted card "actions" buttons (Edit/Delete) — shared by any grid
+ * that lets the user manage their own recipes (discover, my-recipes). ---- */
+.rg-mini-btn {
+	font-size: 0.72rem;
+	font-weight: 600;
+	padding: 7px 12px;
+	border-radius: 999px;
+	border: none;
+	background: rgba(255, 253, 248, 0.94);
+	color: var(--color-ink);
+	text-decoration: none;
+	cursor: pointer;
+	box-shadow: 0 2px 6px rgba(20, 16, 8, 0.28);
+	transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.rg-mini-btn:hover {
+	background: var(--color-surface);
+	color: var(--color-accent);
+	transform: translateY(-1px);
+}
+
+.rg-mini-btn.danger {
+	color: var(--color-danger);
+}
+
+.rg-mini-btn.danger:hover {
+	background: var(--color-surface);
+}
+
