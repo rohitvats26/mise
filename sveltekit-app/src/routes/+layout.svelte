@@ -4,12 +4,18 @@
 	import '../app.css';
 	import miseLogo from '$lib/assets/mise-logo.png';
 	import { theme } from '$lib/stores/theme.svelte';
-
+    import { browser } from '$app/environment';
 	// Side-effect imports...
-	import '@nagp/recipe-ui/rc-recipe-card';
-	import '@nagp/recipe-ui/rc-star-rating';
-	import '@nagp/recipe-ui/rc-search-bar';
-	import '@nagp/recipe-ui/rc-photo-carousel';
+	if (browser) {
+                import('@nagp/recipe-ui/rc-recipe-card');
+        import '@nagp/recipe-ui/rc-recipe-card';
+                import('@nagp/recipe-ui/rc-star-rating');
+        import '@nagp/recipe-ui/rc-star-rating';
+                import('@nagp/recipe-ui/rc-search-bar');
+        import '@nagp/recipe-ui/rc-search-bar';
+                import('@nagp/recipe-ui/rc-photo-carousel');
+        import '@nagp/recipe-ui/rc-photo-carousel';
+        }
 
 	let { children } = $props();
 	let navOpen = $state(false);
