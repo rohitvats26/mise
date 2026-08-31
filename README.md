@@ -25,19 +25,20 @@ recipe-planner/
   uses the shared test key `1`). The initial browse list and category list are
   server-rendered via a SvelteKit `load` function (`src/routes/+page.ts`); search
   and filtering after that happen client-side.
-- **Recipe details** — full ingredients + instructions page, star rating, favorite
-  toggle. Recipes from TheMealDB are server-rendered via `+page.ts`; user-created
-  recipes (which only exist in `localStorage`) are resolved client-side on mount,
-  and the details view is keyed by recipe id so navigating between two recipes
-  resets state correctly instead of reusing stale data.
+- **Recipe details** — full ingredients + instructions page, star rating, photo
+  carousel, and favorite toggle. Recipes from TheMealDB are server-rendered via
+  `+page.ts`; user-created recipes (which only exist in `localStorage`) are
+  resolved client-side on mount, and the details view is keyed by recipe id so
+  navigating between two recipes resets state correctly instead of reusing stale
+  data.
 - **Recipe management** — create/edit/delete for user-created recipes, with validation
   (name, instructions, and at least one named ingredient are required). Recipes from
   TheMealDB are read-only (no edit/delete), since they aren't owned by the user.
 - **Favorites** — add/remove/view, persisted locally.
 - **Weekly meal planner** — assign a favorite recipe to any day, remove it, one plan
   slot per day, persisted locally.
-- **Stencil component library** — `rc-recipe-card`, `rc-star-rating`, `rc-search-bar`.
-  Each demonstrates props, custom events, and slots (see
+- **Stencil component library** — `rc-recipe-card`, `rc-star-rating`, `rc-search-bar`,
+  `rc-photo-carousel`. Each demonstrates props, custom events, and/or slots (see
   [Integration details](#integration-details) below).
 
 ## Assumptions
@@ -128,10 +129,17 @@ directly by `sveltekit-app`. To publish updates:
 - **Slots** — `rc-recipe-card` has a named `actions` slot for host-provided buttons;
   `rc-search-bar` uses the default slot for filter controls.
 - **Registration** — each component self-registers via `customElements.define()`
-  when its module is imported; `sveltekit-app/src/routes/+layout.svelte` side-effect
-  imports all three from the `dist-custom-elements` build. See
-  [Design system](#design-system) below for why this is used instead of Stencil's
-  lazy loader.
+  when its module is imported. `sveltekit-app/src/routes/+layout.svelte`
+  side-effect imports all four from the `dist-custom-elements` build (
+  `rc-recipe-card`, `rc-star-rating`, `rc-search-bar`, `rc-photo-carousel`), but
+  only inside `if (browser) { ... }`, using dynamic `import()` rather than static
+  `import '...'`. This matters: a static `import` declaration is hoisted to
+  module scope regardless of what block it's written in, so it would run
+  unconditionally during SSR too — pulling this browser-only, `window`-touching
+  library into the server bundle and crashing every route. Dynamic `import()`
+  calls are the only form that actually respects the `browser` guard. See
+  [Design system](#design-system) below for why `dist-custom-elements` is used
+  instead of Stencil's lazy loader.
 - **TypeScript** — `sveltekit-app/src/app.d.ts` ambient-types the `rc-*` tags (props +
   event handlers) so Svelte's template type-checker understands them.
 
@@ -162,17 +170,15 @@ official Stencil framework-output-target wrapper (Svelte doesn't have one).
 
 ## Deployment
 
-The app is deployed at
-[mise-git-main-rohitvats26-2216s-projects.vercel.app](https://mise-git-main-rohitvats26-2216s-projects.vercel.app/)
-using `@sveltejs/adapter-auto`, which picks the right adapter for common hosts
-(Vercel, Netlify, Cloudflare, etc.) automatically at build/deploy time. For a
-specific host, swap in its dedicated adapter, e.g. for Vercel:
+The app is deployed at [mise](https://mise-seven-fawn.vercel.app/) using
+`@sveltejs/adapter-vercel` directly (configured in `vite.config.ts`, not
+`svelte.config.js` — see the note above). To deploy your own copy:
 
 ```bash
 cd sveltekit-app
 npm install -D @sveltejs/adapter-vercel
-# then update svelte.config.js: import adapter from '@sveltejs/adapter-vercel';
+# then wire it into vite.config.ts's sveltekit({ adapter: ... }) call
 ```
 
-Then connect the GitHub repo to the host and deploy from the `sveltekit-app`
-directory (set it as the project root if your host asks for a monorepo subfolder).
+Then connect the GitHub repo to Vercel and deploy from the `sveltekit-app`
+directory (set it as the project root, since this is a monorepo).
