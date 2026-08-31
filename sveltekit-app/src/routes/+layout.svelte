@@ -7,15 +7,15 @@
     import { browser } from '$app/environment';
 	// Side-effect imports...
 	if (browser) {
-                import('@nagp/recipe-ui/rc-recipe-card');
-        import '@nagp/recipe-ui/rc-recipe-card';
-                import('@nagp/recipe-ui/rc-star-rating');
-        import '@nagp/recipe-ui/rc-star-rating';
-                import('@nagp/recipe-ui/rc-search-bar');
-        import '@nagp/recipe-ui/rc-search-bar';
-                import('@nagp/recipe-ui/rc-photo-carousel');
-        import '@nagp/recipe-ui/rc-photo-carousel';
-        }
+    	import('@nagp/recipe-ui/rc-recipe-card');
+    	import '@nagp/recipe-ui/rc-recipe-card';
+    	import('@nagp/recipe-ui/rc-star-rating');
+    	import '@nagp/recipe-ui/rc-star-rating';
+    	import('@nagp/recipe-ui/rc-search-bar');
+    	import '@nagp/recipe-ui/rc-search-bar';
+    	import('@nagp/recipe-ui/rc-photo-carousel');
+    	import '@nagp/recipe-ui/rc-photo-carousel';
+}
 
 	let { children } = $props();
 	let navOpen = $state(false);
