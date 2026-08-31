@@ -20,9 +20,4 @@ export default defineConfig({
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
-	ssr: {
-		resolve: {
-			conditions: ['browser']
-		}
-	}
 });
