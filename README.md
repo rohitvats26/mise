@@ -14,9 +14,9 @@ recipe-planner/
 
 | | |
 |---|---|
-| GitHub repo | `https://github.com/rohitvats26/mise` |
-| Deployed app | `TODO: add link` |
-| npm package | `TODO: add link, e.g. https://www.npmjs.com/package/@nagp/recipe-ui` |
+| GitHub repo | [`rohitvats26/mise`](https://github.com/rohitvats26/mise) |
+| Deployed app | [mise — A Kitchen Journal](https://mise-seven-fawn.vercel.app/) |
+| npm package | [`@nagp/recipe-ui`](https://www.npmjs.com/package/@nagp/recipe-ui) |
 
 ## What's implemented
 
@@ -97,16 +97,11 @@ npm run preview # preview the production build
 
 ## npm publishing
 
-The library currently ships as a **local file dependency**
-(`"@nagp/recipe-ui": "file:../recipe-ui"` in `sveltekit-app/package.json`)
-so the whole project runs immediately without an npm account. To satisfy the
-assignment's actual publishing requirement:
+The library ships as a **published npm package**
+([`@nagp/recipe-ui`](https://www.npmjs.com/package/@nagp/recipe-ui)), consumed
+directly by `sveltekit-app`. To publish updates:
 
-1. **Pick your npm scope.** Replace every `@nagp` placeholder (in
-   `recipe-ui/package.json` and in `sveltekit-app/package.json`,
-   `sveltekit-app/src/routes/+layout.svelte`, and `sveltekit-app/src/app.d.ts`)
-   with your real npm username or org, e.g. `@rohit-dev`.
-2. **Log in and publish** (from `recipe-ui/`):
+1. **Log in and publish** (from `recipe-ui/`):
    ```bash
    npm login
    npm run build
@@ -114,17 +109,13 @@ assignment's actual publishing requirement:
    ```
    `publishConfig.access: "public"` is already set in `package.json` so a scoped
    package publishes publicly without an extra flag.
-3. **Versioning.** Bump with `npm version patch|minor|major` before each publish —
-   this follows semver and keeps a clean tag history (already at `0.1.0` for the
-   first publish).
-4. **Consume the real package** in `sveltekit-app`:
+2. **Versioning.** Bump with `npm version patch|minor|major` before each publish —
+   this follows semver and keeps a clean tag history.
+3. **Consume the latest package** in `sveltekit-app`:
    ```bash
    cd sveltekit-app
-   npm uninstall @nagp/recipe-ui
    npm install @nagp/recipe-ui@latest
    ```
-   No other code changes are needed — the import paths are identical whether the
-   package comes from `file:` or the npm registry.
 
 ## Integration details
 
@@ -171,9 +162,11 @@ official Stencil framework-output-target wrapper (Svelte doesn't have one).
 
 ## Deployment
 
-The app currently uses `@sveltejs/adapter-auto`, which picks the right adapter for
-common hosts (Vercel, Netlify, Cloudflare, etc.) automatically at build/deploy time.
-For a specific host, swap in its dedicated adapter, e.g. for Vercel:
+The app is deployed at
+[mise-git-main-rohitvats26-2216s-projects.vercel.app](https://mise-git-main-rohitvats26-2216s-projects.vercel.app/)
+using `@sveltejs/adapter-auto`, which picks the right adapter for common hosts
+(Vercel, Netlify, Cloudflare, etc.) automatically at build/deploy time. For a
+specific host, swap in its dedicated adapter, e.g. for Vercel:
 
 ```bash
 cd sveltekit-app
