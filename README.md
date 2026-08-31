@@ -14,7 +14,7 @@ recipe-planner/
 
 | | |
 |---|---|
-| GitHub repo | `TODO: add link` |
+| GitHub repo | `https://github.com/rohitvats26/mise` |
 | Deployed app | `TODO: add link` |
 | npm package | `TODO: add link, e.g. https://www.npmjs.com/package/@nagp/recipe-ui` |
 

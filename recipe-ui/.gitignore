@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Stencil build/cache files
+.stencil/.build/
+
+# SvelteKit / generated build output
+www/build/
+dist/

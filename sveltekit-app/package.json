@@ -13,7 +13,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {
-		"@nagp/recipe-ui": "file:../recipe-ui"
+		"@nagp/recipe-ui": "0.3.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.1",
