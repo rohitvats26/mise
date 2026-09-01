@@ -111,18 +111,10 @@
 
 	<div class="hero-media" use:reveal>
 		<div class="hero-media-inner">
-			{#if heroImage}
-				<img src={heroImage} alt="" loading="lazy" />
-			{:else}
-				<div class="hero-placeholder"></div>
-			{/if}
+			<img src=https://cdn.aidesigner.ai/extracted-assets/8a35b62cf0773b36/43631a3e-42fe-405d-92b3-735433011e77-1787463817325.jpg alt="" loading="lazy" />
 		</div>
 		<div class="hero-peek">
-			{#if heroPeek}
-				<img src={heroPeek} alt="" loading="lazy" />
-			{:else}
-				<div class="hero-placeholder"></div>
-			{/if}
+			<img src="https://d219o304zcx1el.cloudfront.net/22ff88c4-8b3f-4304-b369-7a021f7c20ef.jpg" alt="" loading="lazy" />
 		</div>
 	</div>
 </section>
