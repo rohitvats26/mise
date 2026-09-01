@@ -1,42 +1,52 @@
-# sv
+# sveltekit-app
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+The **Svelte 5 / SvelteKit** frontend for the [Recipe Finder & Meal Planner](../README.md)
+app. It consumes the `@nagp/recipe-ui` StencilJS component library from this repo
+as a real npm dependency (currently linked locally via `file:../recipe-ui`).
 
-## Creating a project
+See the [root README](../README.md) for the full picture — features, assumptions,
+setup for the whole repo, design system, and deployment notes. This file covers
+just the commands for working in this package.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Layout
 
-```sh
-# create a new project
-npx sv create my-app
 ```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --no-install sveltekit-app
+src/
+├── lib/
+│   ├── api/          # TheMealDB client
+│   ├── components/   # Svelte components (wrap/compose the rc-* elements)
+│   ├── stores/        # Svelte 5 rune-based stores (favorites, meal plan, user recipes)
+│   ├── actions/
+│   └── assets/
+└── routes/
+    ├── discover/      # recipe search + browse
+    ├── recipe/[id]/   # recipe details
+    ├── recipe/new/    # create/edit recipe
+    ├── my-recipes/    # user-created recipes
+    ├── favorites/
+    └── meal-plan/     # weekly planner
 ```
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Requires the `recipe-ui` package to be built first — see the
+[root README](../README.md#1-build-and-link-the-component-library).
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
+npm install
 npm run dev -- --open
 ```
 
-## Building
+Runs at `http://localhost:5173`.
 
-To create a production version of your app:
+## Other commands
 
 ```sh
-npm run build
+npm run check    # type-check (svelte-check)
+npm run test     # unit tests (vitest) — validation logic + favorites/meal-plan stores
+npm run build    # production build
+npm run preview  # preview the production build
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+> To deploy, you'll need to swap `@sveltejs/adapter-auto` for a host-specific
+> adapter — see [Deployment](../README.md#deployment) in the root README.
